@@ -1,6 +1,9 @@
 // Importing necessary modules
 import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
+import Footer from "../components/Footer";
 
 // The Giphy API key
 const giphyApiKey = process.env.NEXT_PUBLIC_GIPHY_API_KEY;
@@ -48,37 +51,59 @@ export default function Home(initialData) {
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>Giphy Search App</title>
+        <meta
+          name="description"
+          content="Love giphys? We do too. Use our advanced giphy search to find the perfect giphy for any occation"
+        ></meta>
         <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="/styles.css" />
       </Head>
 
-      <h1>Giphy Search App</h1>
+      <h1 className="text-xl">Giphy Search App</h1>
 
-      <form onSubmit={handleSearchSubmit}>
+      <form className="m-5" onSubmit={handleSearchSubmit}>
         <input name="searchTerm" onChange={handleInputs} type="text" required />
         <button>Search</button>
       </form>
 
       <h1>Search results for: {searchTerm}</h1>
+      <p className="m-5">
+        Share this search with others:
+        <Link href="/search/[pid]" as={`/search/${searchTerm}`}>
+          http://localhost:3000/search/{searchTerm}
+        </Link>
+      </p>
 
-      <div className="giphy-search-results-grid">
+      <div className="place-self-center place-items-center flex-col columns-3 max-md:columns-1 max-md:flex">
         {/* Mapping over the catGiphys data and rendering each item */}
         {searchResults.map((each, index) => {
           return (
-            <div key={index}>
-              <h3>{each.title}</h3>
-              <img src={each.images.original.url} alt={each.title} />
+            <div
+              key={index}
+              className="m-2 place-self-center place-items-center"
+            >
+              <h3 className="text-pretty text-sm">{each.title}</h3>
+              <Image
+                className="h-[300px] max-w-[500px] place-self-center max-md:max-w-[300px]"
+                src={each.images.downsized_medium.url}
+                alt={each.title}
+                width={each.images.downsized_medium.width}
+                height={each.images.downsized_medium.height}
+                priority={true}
+              />
             </div>
           );
         })}
+      </div>
+      <div className="mt-20">
+        <Footer />
       </div>
     </div>
   );
 }
 
 // Function to fetch data at build time
-export async function getStaticProps() {
+export async function getServerSideProps() {
   // Fetching cat gifs from the Giphy API
   const res = await fetch(
     `https://api.giphy.com/v1/gifs/search?q=cats&api_key=${giphyApiKey}&limit=6`

@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Footer from "../components/Footer";
 
 export default function About() {
   return (
@@ -6,7 +7,6 @@ export default function About() {
       <Head>
         <title>About</title>
         <link rel="icon" href="/favicon.ico" />
-        <link rel="stylesheet" href="/styles.css" />
       </Head>
       <h1>About</h1>
       <p>
@@ -36,6 +36,9 @@ export default function About() {
         make them stronger than images and their shorter length make them more
         digestible than video. That's the short answer.
       </p>
+      <div className="mt-20">
+        <Footer />
+      </div>
     </div>
   );
 }
