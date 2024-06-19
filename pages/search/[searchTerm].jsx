@@ -1,5 +1,7 @@
-import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
 
 // The Giphy API key
@@ -8,26 +10,33 @@ const giphyApiKey = process.env.NEXT_PUBLIC_GIPHY_API_KEY;
 export default function Search(initialData) {
   const router = useRouter();
   return (
-    <>
-      <Head>
-        <title>Search results for: {router.query.searchTerm}</title>
-        <meta
-          name="description"
-          content={initialData.giphys.map((each, index) => each.title + " ")}
-        ></meta>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <p>
-        Go <Link href="/">home</Link>
-      </p>
-      <h1>Search results for: {router.query.searchTerm}</h1>
+    <div className="container">
+      <Header initialData={initialData} />
 
-      <div className="giphy-search-results-grid">
+      <p className="mt-10">
+        Go{" "}
+        <Link className="text-blue-600 visited:text-purple-600" href="/">
+          home
+        </Link>
+      </p>
+      <h1 className="m-5">Search results for: {router.query.searchTerm}</h1>
+
+      <div className="place-self-center place-items-center flex-col columns-3 max-md:columns-1 max-md:flex mt-10">
         {initialData.giphys.map((each, index) => {
           return (
-            <div key={index}>
-              <h3>{each.title}</h3>
-              <img src={each.images.original.url} alt={each.title} />
+            <div
+              key={index}
+              className="m-2 place-self-center place-items-center"
+            >
+              <h3 className="text-pretty text-sm">{each.title}</h3>
+              <Image
+                className="h-[300px] max-w-[500px] place-self-center max-md:max-w-[300px]"
+                src={each.images.downsized_medium.url}
+                alt={each.title}
+                width={each.images.downsized_medium.width}
+                height={each.images.downsized_medium.height}
+                priority={true}
+              />
             </div>
           );
         })}
@@ -35,7 +44,7 @@ export default function Search(initialData) {
       <div className="mt-20">
         <Footer />
       </div>
-    </>
+    </div>
   );
 }
 

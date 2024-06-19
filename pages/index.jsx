@@ -1,9 +1,9 @@
 // Importing necessary modules
-import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import Footer from "../components/Footer";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 // The Giphy API key
 const giphyApiKey = process.env.NEXT_PUBLIC_GIPHY_API_KEY;
@@ -22,12 +22,12 @@ export default function Home(initialData) {
   // useEffect hook to log the catGiphys prop when the component mounts
   useEffect(() => {
     setSearchResults(initialData.catGiphys.data);
-  }, [initialData]);
+  }, []);
 
   // Function to handle input changes and update the formInputs state
   const handleInputs = (event) => {
     let { name, value } = event.target;
-    setFormInputs({ ...formInputs, [name]: value });
+    setFormInputs({ ...formInputs, [name]: value }); // formInputs = {searchTerm: "value"}
   };
 
   // Function to handle form submission
@@ -50,16 +50,7 @@ export default function Home(initialData) {
   // The component's return statement
   return (
     <div className="container">
-      <Head>
-        <title>Giphy Search App</title>
-        <meta
-          name="description"
-          content="Love giphys? We do too. Use our advanced giphy search to find the perfect giphy for any occation"
-        ></meta>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <h1 className="text-xl">Giphy Search App</h1>
+      <Header initialData={initialData} />
 
       <form className="m-5" onSubmit={handleSearchSubmit}>
         <input name="searchTerm" onChange={handleInputs} type="text" required />
@@ -68,8 +59,12 @@ export default function Home(initialData) {
 
       <h1>Search results for: {searchTerm}</h1>
       <p className="m-5">
-        Share this search with others:
-        <Link href="/search/[pid]" as={`/search/${searchTerm}`}>
+        Share this search with others:{" "}
+        <Link
+          className="text-blue-600 visited:text-purple-600"
+          href="/search/[pid]"
+          as={`/search/${searchTerm}`}
+        >
           http://localhost:3000/search/{searchTerm}
         </Link>
       </p>
@@ -109,7 +104,7 @@ export async function getServerSideProps() {
     `https://api.giphy.com/v1/gifs/search?q=cats&api_key=${giphyApiKey}&limit=6`
   );
   const catGiphys = await res.json();
-  console.log(catGiphys);
+
   // Returning the fetched data as props
   return { props: { catGiphys } };
 }

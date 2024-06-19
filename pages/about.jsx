@@ -1,14 +1,11 @@
-import Head from "next/head";
-import Footer from "../components/Footer";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 export default function About() {
   return (
     <div className="container">
-      <Head>
-        <title>About</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <h1>About</h1>
+      <Header />
+      <h1 className="mt-10 mb-5 text-xl">About</h1>
       <p>
         Love giphys? So do we. use our app <b>giphy search</b> to find the
         perfect giphy for any occasion.
