@@ -26,7 +26,7 @@ export default function Search(initialData) {
           return (
             <div
               key={index}
-              className="m-2 place-self-center place-items-center"
+              className="mb-3 mr-0.5 ml-0.5 max-md:mb-5 place-self-center place-items-center"
             >
               <h3 className="text-pretty text-sm">{each.title}</h3>
               <Image

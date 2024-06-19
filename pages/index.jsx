@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 
 // The Giphy API key
 const giphyApiKey = process.env.NEXT_PUBLIC_GIPHY_API_KEY;
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 // The Home component which is the default export of this module
 export default function Home(initialData) {
@@ -58,16 +59,18 @@ export default function Home(initialData) {
       </form>
 
       <h1>Search results for: {searchTerm}</h1>
-      <p className="m-5">
-        Share this search with others:{" "}
-        <Link
-          className="text-blue-600 visited:text-purple-600"
-          href="/search/[pid]"
-          as={`/search/${searchTerm}`}
-        >
-          http://localhost:3000/search/{searchTerm}
-        </Link>
-      </p>
+      <div className="m-5">
+        <p>
+          Share this search with others:{" "}
+          <Link
+            className="text-blue-600 visited:text-purple-600"
+            href="/search/[pid]"
+            as={`/search/${searchTerm}`}
+          >
+            {baseUrl}/search/{searchTerm}
+          </Link>
+        </p>
+      </div>
 
       <div className="place-self-center place-items-center flex-col columns-3 max-md:columns-1 max-md:flex">
         {/* Mapping over the catGiphys data and rendering each item */}
@@ -75,7 +78,7 @@ export default function Home(initialData) {
           return (
             <div
               key={index}
-              className="m-2 place-self-center place-items-center"
+              className="mb-3 mr-0.5 ml-0.5 max-md:mb-5 place-self-center place-items-center"
             >
               <h3 className="text-pretty text-sm">{each.title}</h3>
               <Image
